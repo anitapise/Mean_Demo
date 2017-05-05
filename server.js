@@ -4,7 +4,7 @@ var express=require('express'),
     mongoose=require('mongoose'),
     meetupsController=require('./server/controllers/meetup-controller.js')
 
-  mongoose.connect('mongodb://localhost:27017/mean-demo');
+  mongoose.connect('mongodb://admin:admin@ds041432.mlab.com:41432/mean-demo');
   app.use(bodyParser());
   app.get('/',function(req,res){
   res.sendFile(__dirname+'/client/views/index.html');
