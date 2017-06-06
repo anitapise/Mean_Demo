@@ -1,20 +1,27 @@
-var express=require('express'),
-        app=express(),
-    bodyParser=require('body-parser'),
-    mongoose=require('mongoose'),
-    meetupsController=require('./server/controllers/meetup-controller.js')
-
-  mongoose.connect('mongodb://admin:admin@ds041432.mlab.com:41432/mean-demo');
-  app.use(bodyParser());
-  app.get('/',function(req,res){
-  res.sendFile(__dirname+'/client/views/index.html');
- });
-app.use('/js',express.static(__dirname+'/client/js'));
-//REST API
-app.get('/api/meetups', meetupsController.list);
-app.post('/api/meetups', meetupsController.create);
-app.listen(3000,function(){
-console.log('I m listening...');
-})
-
-
+var express= require('express');
+var bodyParser= require('body-parser');
+var mongoose= require('mongoose');
+var cors = require('cors');
+var config="mongodb://localhost:27017/employees";
+mongoose.connect(config)
+        .connection
+        .on('connected',function(){
+        console.log("successfully connected to "+config);
+        })
+        .on('error',function(err){
+            console.log("database error "+err);
+        })
+var app = express();
+var port= 3000;
+app.use(cors());
+app.get('/',function(req,res) {
+res.send("Hello from Anita");
+});
+var router= require('./routes');
+//middleware
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
+app.use('/api/employees',router);
+app.listen(port, function(){
+console.log("server is running on port "+port);
+});
